@@ -1,15 +1,15 @@
 {
-	"name": "utils",
-	"version": "0.0.1",
-	"dependencies": {
-		"cors": "^2.8.5",
-		"express": "^4.21.2",
-		"sqlite3": "^5.1.7"
-	},
-	"type": "module",
-	"main": "index.js",
-	"scripts": {
-		"deploy": "node deploy",
-		"deploy:watch": "nodemon deploy"
-	}
+  "name": "utils",
+  "version": "0.0.2",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "sqlite3": "^5.1.7"
+  },
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "node deploy",
+    "deploy:watch": "nodemon deploy"
+  }
 }
