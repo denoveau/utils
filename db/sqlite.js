@@ -72,7 +72,10 @@ class Table {
       const query = `insert into ${this.table}(${keys.join(',')}) values(${values.map((value) => `'${value}'`).join(',')})`
       await this.db.exec(query)
     } catch (error) {
-      console.log({ error })
+      if (error.code === 'SQLITE_CONSTRAINT') {
+        const field = error.message.split(':').slice(-1)[0].trim().split(`${this.table}.`)[1]
+        throw new Error(`Invalid value for ${field}`)
+      }
       throw new Error(`Error creating new ${this.table.slice(0, -1)}`)
     }
     return this.read({ query: data })
