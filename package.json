@@ -5,5 +5,9 @@
 		"sqlite3": "^5.1.7"
 	},
 	"type": "module",
-	"main": "index.js"
+	"main": "index.js",
+	"scripts": {
+		"deploy": "node deploy",
+		"deploy:watch": "nodemon deploy"
+	}
 }
