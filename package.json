@@ -10,6 +10,7 @@
   "main": "index.js",
   "scripts": {
     "deploy": "node deploy",
-    "deploy:watch": "nodemon deploy"
+    "deploy:watch": "nodemon deploy",
+    "publish": "node publish"
   }
 }
