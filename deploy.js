@@ -9,13 +9,14 @@ await Promise.all((await readdir(root)).map(async (_) => {
   if (_ === pkgName) return
   try {
     let [ packageJSON ] = (await readdir(`${root}/${_}`)).filter((_) => _ === 'package.json')
-    if (!packageJSON) { console.log(`No package.json found in ${_}`); return }
+    if (!packageJSON) { console.log(`[${_}] No package.json found.`); return }
     packageJSON = JSON.parse((await readFile(`${root}/${_}/package.json`)).toString())
     if (!(packageJSON.dependencies || {})[pkgName]) {
-      console.log(`${_} does not require ${pkgName}. Skipping.`)
+      console.log(`[${_}] Does not require ${pkgName}.`)
       return
     }
-    console.log(`Updating ${_} for ${pkgName}`)
-    await exec(`cd ${root}/${_}; npm i`)
-  } catch (_) { }
+    await exec(`cd ${root}/${_}; rm -rf node_modules && npm i`)
+    console.log(`[${_}] Updated ${pkgName}.`)
+  } catch (_) {
+  }
 }))
