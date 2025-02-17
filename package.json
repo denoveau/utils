@@ -1,5 +1,6 @@
 {
 	"name": "utils",
+	"version": "0.0.1",
 	"dependencies": {
 		"cors": "^2.8.5",
 		"express": "^4.21.2",
