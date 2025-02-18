@@ -21,7 +21,7 @@ await Promise.all((await readdir(root, { withFileTypes: true })).filter(($) => {
     if (!(packageJSON.dependencies || {})[pkgName]) {
       return console.log(`[${name}] Does not require ${pkgName}.`)
     }
-    await exec(`cd ${root}/${name}; git stash && rm -rf node_modules package-lock.json && npm i && git add package*json && git commit -m "Updates utils to v${version}." && git push origin $(git rev-parse --abbrev-ref HEAD) git stash pop`)
+    await exec(`cd ${root}/${name}; git stash && rm -rf node_modules package-lock.json && npm i && git add package*json && git commit -m "Updates utils to v${version}." && git push origin $(git rev-parse --abbrev-ref HEAD) && git stash pop`)
     console.log(`[${name}] Updated ${pkgName}.`)
   } catch ({ message }) {
     console.log(`[${name}] Unable to update ${pkgName}. (${message})`)
