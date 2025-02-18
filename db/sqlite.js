@@ -24,8 +24,9 @@ async function connect(dbName) {
 
 
 class Table {
-  /**@type{String|null}*/ tableName
-  /**@type{Database|null}*/ db
+  static /**@type{String|null}*/ tableName
+  static /**@type{Database|null}*/ db
+  static /**@type{String[]}*/ restricted = []
   static get table() { return (this.tableName || this.name).toLowerCase() }
   static async getData(data, parameterize = false) {
     const schema_ = await this.schema
@@ -34,6 +35,7 @@ class Table {
     Object.entries(data)
       .map(([key, value]) => {
         if (!schema_.fields[key]) return
+        if (restricted.indexOf(key) !== -1) return
         keys.push(parameterize ? `${key} = ?` : `${key}`)
         try { value = JSON.parse(value) } catch (err) { }
         values.push(value)
@@ -60,8 +62,9 @@ class Table {
     // TODO: Add a filter for restrictions
     query = { ...(params || {}), ...(query || {})}
     const [keys, values] = await this.getData(query, true)
+    const fields = Object.keys((await this.schema).fields).filter((key) => (this.restricted || []).indexOf(key) === -1)
     const filter = keys.length ? `where ${keys.join(' and ')}` : ''
-    return this.db.all(`select * from ${this.table} ${filter}`, values)
+    return this.db.all(`select ${fields.join(',')} from ${this.table} ${filter}`, values)
   }
   static async create(data = {}) {
     const [keys, values] = await this.getData(data)
