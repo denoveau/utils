@@ -35,7 +35,7 @@ class Table {
     Object.entries(data)
       .map(([key, value]) => {
         if (!schema_.fields[key]) return
-        if (restricted.indexOf(key) !== -1) return
+        if (this.restricted.indexOf(key) !== -1) return
         keys.push(parameterize ? `${key} = ?` : `${key}`)
         try { value = JSON.parse(value) } catch (err) { }
         values.push(value)
